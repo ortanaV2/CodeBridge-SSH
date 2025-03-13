@@ -9,18 +9,22 @@ with open("config.yaml", "r") as file:
 hostname = config["ssh"]["hostname"]
 username = config["ssh"]["username"]
 password = config["ssh"]["password"]
+path = config["ssh"]["path"]
 
 local_file = './sync_files/control.py'
-remote_file = '/home/kipr/control.py'
+remote_file = f'{path}control.py' 
+
+print("Start listening..")
 
 last_stamp = ""
-print("Start listening..")
 while True:
     time.sleep(0.5)
+
     for i in range(3):
         try:
             file_data = open(local_file).read()
             break
+
         except Exception:
             file_data = last_stamp
     
@@ -28,7 +32,6 @@ while True:
         last_stamp = file_data
 
         client = paramiko.SSHClient()
-
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
         try:
@@ -40,7 +43,6 @@ while True:
             escaped_content = shlex.quote(file_content)
 
             command = f'echo {escaped_content} > {remote_file}'
-
             stdin, stdout, stderr = client.exec_command(command)
 
         except Exception as e:
