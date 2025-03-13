@@ -1,10 +1,14 @@
 import paramiko
 import shlex
 import time
+import yaml
 
-hostname = '10.68.3.75'
-username = "kipr"
-password = 'botball'
+with open("config.yaml", "r") as file:
+    config = yaml.safe_load(file)
+
+hostname = config["ssh"]["hostname"]
+username = config["ssh"]["username"]
+password = config["ssh"]["password"]
 
 local_file = './sync_files/control.py'
 remote_file = '/home/kipr/control.py'
