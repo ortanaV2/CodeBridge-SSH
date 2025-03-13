@@ -3,4 +3,4 @@ ssh:
   username: kipr
   password: botball
   
-  path: /home/kipr/  # Default recommended path
+  path: /home/kipr/  # recommended
